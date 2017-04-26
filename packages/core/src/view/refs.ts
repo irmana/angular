@@ -237,7 +237,11 @@ export class ViewRef_ implements EmbeddedViewRef<any>, InternalViewRef {
 
   markForCheck(): void { markParentViewsForCheck(this._view); }
   detach(): void { this._view.state &= ~ViewState.ChecksEnabled; }
-  detectChanges(): void { Services.checkAndUpdateView(this._view); }
+  detectChanges(): void {
+    this._view.root.rendererFactory.begin();
+    Services.checkAndUpdateView(this._view);
+    this._view.root.rendererFactory.end();
+  }
   checkNoChanges(): void { Services.checkNoChangesView(this._view); }
 
   reattach(): void { this._view.state |= ViewState.ChecksEnabled; }

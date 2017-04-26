@@ -70,12 +70,12 @@ export declare type AnimationStateTransitionMetadata = any;
 
 /** @deprecated */
 export interface AnimationStyleMetadata extends AnimationMetadata {
-    offset?: number;
-    styles: {
+    offset: number | null;
+    styles: '*' | {
         [key: string]: string | number;
-    } | {
+    } | Array<{
         [key: string]: string | number;
-    }[];
+    } | '*'>;
 }
 
 /** @deprecated */
@@ -846,7 +846,9 @@ export declare abstract class Renderer2 {
 
 /** @experimental */
 export declare abstract class RendererFactory2 {
+    abstract begin(): void;
     abstract createRenderer(hostElement: any, type: RendererType2 | null): Renderer2;
+    abstract end(): void;
 }
 
 /** @experimental */

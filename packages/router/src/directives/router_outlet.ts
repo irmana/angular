@@ -35,7 +35,7 @@ import {PRIMARY_OUTLET} from '../shared';
  *
  * @stable
  */
-@Directive({selector: 'router-outlet'})
+@Directive({selector: 'router-outlet', exportAs: 'outlet'})
 export class RouterOutlet implements OnDestroy {
   private activated: ComponentRef<any>;
   private _activatedRoute: ActivatedRoute;
@@ -62,10 +62,7 @@ export class RouterOutlet implements OnDestroy {
     if (!this.activated) throw new Error('Outlet is not activated');
     return this.activated.instance;
   }
-  get activatedRoute(): ActivatedRoute {
-    if (!this.activated) throw new Error('Outlet is not activated');
-    return this._activatedRoute;
-  }
+  get activatedRoute(): ActivatedRoute { return this._activatedRoute; }
 
   detach(): ComponentRef<any> {
     if (!this.activated) throw new Error('Outlet is not activated');
@@ -110,7 +107,7 @@ export class RouterOutlet implements OnDestroy {
     const inj = ReflectiveInjector.fromResolvedProviders(providers, injector);
 
     this.activated = this.location.createComponent(factory, this.location.length, inj, []);
-    this.activated.changeDetectorRef.detectChanges();
+    // this.activated.changeDetectorRef.detectChanges();
 
     this.activateEvents.emit(this.activated.instance);
   }
@@ -134,7 +131,7 @@ export class RouterOutlet implements OnDestroy {
     const injector = new OutletInjector(activatedRoute, outletMap, this.location.injector);
 
     this.activated = this.location.createComponent(factory, this.location.length, injector, []);
-    this.activated.changeDetectorRef.detectChanges();
+    // this.activated.changeDetectorRef.detectChanges();
 
     this.activateEvents.emit(this.activated.instance);
   }
